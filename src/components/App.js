@@ -73,10 +73,6 @@ function App() {
     };
 
     getAllContacts();
-  },[]);
-
-  useEffect( ()=>{
-    // localStorage.setItem(LOCAL_STORAGE_KEY,JSON.stringify(contacts));
   },[contacts]);
 
   return (
