@@ -15,7 +15,10 @@ function App() {
   const[searchTerm,setSearchTerm]=useState("");
   const[searchResults,setSearchResults]=useState([]);
 
-
+  const retriveContacts=async()=>{
+    const response= await api.get("/contacts");
+    return response.data;
+  };
   
 
 
@@ -61,15 +64,20 @@ function App() {
   };
 
 
-  const fetchContacts = async () => {
-    const response = await api.get("/contacts");
-    setContacts(response.data);
-    setSearchResults(response.data); // Assuming search results should also update
-  };
+  useEffect( ()=>{
+    // const retriveContacts=JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+    // if(retriveContacts) setContacts(retriveContacts);
+    const getAllContacts= async ()=> {
+      const allContacts = await retriveContacts();
+      if (allContacts) setContacts(allContacts);
+    };
 
-  useEffect(() => {
-    fetchContacts(); // Initial fetching of contacts
-  }, []);
+    getAllContacts();
+  },[]);
+
+  useEffect( ()=>{
+    // localStorage.setItem(LOCAL_STORAGE_KEY,JSON.stringify(contacts));
+  },[contacts]);
 
   return (
     <div className="ui container">
